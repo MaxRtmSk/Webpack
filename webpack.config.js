@@ -14,6 +14,9 @@ module.exports = {
     hot: true,
     port: 8080,
   },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: "Webpack Boil",
@@ -32,10 +35,7 @@ module.exports = {
           loader: "babel-loader",
           options: {
             presets: ["@babel/preset-env"],
-            plugins: [
-              "@babel/plugin-proposal-class-properties",
-              { loose: true },
-            ],
+            plugins: ['@babel/plugin-proposal-class-properties'],
           },
         },
       },
