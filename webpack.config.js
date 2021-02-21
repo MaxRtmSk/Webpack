@@ -5,10 +5,10 @@ const { webpack } = require("webpack");
 
 module.exports = {
   mode: "development",
-  entry: "./src/index.js",
+  entry: ["@babel/polyfill", "./src/index.jsx"],
   devServer: {
     historyApiFallback: true,
-    contentBase: path.resolve(__dirname, './dist'),
+    contentBase: path.resolve(__dirname, "./dist"),
     open: true,
     compress: true,
     hot: true,
@@ -28,7 +28,26 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: ["babel-loader"],
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"],
+            plugins: [
+              "@babel/plugin-proposal-class-properties",
+              { loose: true },
+            ],
+          },
+        },
+      },
+      {
+        test: /\.jsx$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+          },
+        },
       },
       {
         test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
@@ -40,8 +59,8 @@ module.exports = {
       },
       {
         test: /\.(scss|css)$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
-      }
+        use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
+      },
     ],
   },
   output: {
